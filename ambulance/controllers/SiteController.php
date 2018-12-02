@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use abhimanyu\sms\components\Sms;
+use SoapClient;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -20,19 +22,14 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
                         'allow' => true,
-                        'roles' => ['@'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                    ],
                 ],
             ],
         ];
@@ -61,41 +58,44 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+//        $role = Yii::$app->authManager->createRole('dispatcher');
+//        $role->description = 'Головний диспетчер';
+//        Yii::$app->authManager->add($role);
+//
+//        $role = Yii::$app->authManager->createRole('subdispatcher');
+//        $role->description = 'Диспетчер підстанції';
+//        Yii::$app->authManager->add($role);
+//
+//        $role = Yii::$app->authManager->createRole('brigade');
+//        $role->description = 'Бригада';
+//        Yii::$app->authManager->add($role);
+//
+//        $role = Yii::$app->authManager->createRole('patient');
+//        $role->description = 'Пацієнт';
+//        Yii::$app->authManager->add($role);
+//        $to_number = array('+380951528130');
+//
+//        $message = array('HELLO');
+//
+//
+//        $client = new SoapClient("parsasms.com/webservice/v2.asmx?WSDL");
+//
+//        $params = array(
+//
+//            'username' => 'demo',
+//
+//            'password' => 'demo',
+//
+//            'senderNumbers' => array("30005006002651"),
+//
+//            'recipientNumbers'=> $to_number,
+//
+//            'messageBodies' => $message
+//
+//        );
+//
+//        $results = $client->SendSMS($params);
         return $this->render('index');
-    }
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
     }
 
     /**

@@ -12,6 +12,19 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'authManager'  => [
+            'class'        => 'yii\rbac\DbManager',
+        ],
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            // Hide index.php
+            'showScriptName' => false,
+            // Use pretty URLs
+            'enablePrettyUrl' => true,
+            'rules' => [
+                '<alias:\w+>' => 'site/<alias>',
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'SGI2gNQy7nQCNxrL9SCwkPC80ZJ15jaO',
@@ -19,28 +32,8 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'class' => 'dektrium\user\Module',
-            'enableUnconfirmedLogin' => true,
-            'confirmWithin' => 21600,
-            'cost' => 12,
-            'admins' => ['admin']
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
-        ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'viewPath' => '@app/mailer',
-            'useFileTransport' => false,
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'your-host-domain e.g. smtp.gmail.com',
-                'username' => 'your-email-or-username',
-                'password' => 'your-password',
-                'port' => '587',
-                'encryption' => 'tls',
-            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -61,6 +54,19 @@ $config = [
         ],
         */
     ],
+    'modules' => [
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            'enableUnconfirmedLogin' => true,
+            'confirmWithin' => 21600,
+            'cost' => 12,
+            'enableConfirmation' => false,
+            'admins' => ['admin']
+        ],
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+        ]
+    ],
     'params' => $params,
 ];
 
@@ -77,7 +83,7 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['127.0.0.1', '::1', '172.*.*.*'],
     ];
 }
 
