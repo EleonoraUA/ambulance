@@ -48,7 +48,7 @@ use yii\bootstrap\NavBar;
                 </li>
 
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="/patient/index">
+                    <a href="/patient-cab/index">
                         Пацієнти
                     </a>
                 </li>

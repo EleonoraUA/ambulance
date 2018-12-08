@@ -41,7 +41,7 @@ class CallsSearch extends Calls
      */
     public function search($params)
     {
-        $query = Calls::find();
+        $query = Calls::find()->limit(2);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

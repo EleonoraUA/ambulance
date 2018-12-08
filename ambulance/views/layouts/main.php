@@ -94,6 +94,50 @@ AppAsset::register($this);
         $url = '/subdispatcher/index';
     }
 
+    if (Yii::$app->user->can('patient')) {
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => [
+                ['label' => 'Головна', 'url' => ['/patient-cab/index'], 'linkOptions' => ['style' => 'color: #fff;']],
+                Yii::$app->user->isGuest ? (
+                ['label' => 'Увійти', 'url' => ['/user/security/login']]
+                ) : (
+                    '<li>'
+                    . Html::beginForm(['/user/security/logout'], 'post')
+                    . Html::submitButton(
+                        '<span style="color: #fff;" >' . 'Вийти ('  . Yii::$app->user->identity->username . ')' . '</span>',
+                        ['class' => 'btn btn-link logout']
+                    )
+                    . Html::endForm()
+                    . '</li>'
+                )
+            ],
+        ]);
+        $url = '/subdispatcher/index';
+    }
+
+    if (Yii::$app->user->can('brigade')) {
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => [
+                ['label' => 'Головна', 'url' => ['/brigade-cab/index'], 'linkOptions' => ['style' => 'color: #fff;']],
+                Yii::$app->user->isGuest ? (
+                ['label' => 'Увійти', 'url' => ['/user/security/login']]
+                ) : (
+                    '<li>'
+                    . Html::beginForm(['/user/security/logout'], 'post')
+                    . Html::submitButton(
+                        '<span style="color: #fff;" >' . 'Вийти ('  . Yii::$app->user->identity->username . ')' . '</span>',
+                        ['class' => 'btn btn-link logout']
+                    )
+                    . Html::endForm()
+                    . '</li>'
+                )
+            ],
+        ]);
+        $url = '/subdispatcher/index';
+    }
+
     NavBar::end();
 
     ?>
